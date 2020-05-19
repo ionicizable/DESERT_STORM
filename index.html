@@ -1,11 +1,32 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head>	
 	<meta charset="utf-8">
-	<title>Aether Fort</title>
+	<title>Desert Storm</title>
+	<style type="text/css">
+		* {
+cursor: none;
+}
+	</style>
 </head>
-<body>
-	<canvas id="canvas" height="300" width="1000"></canvas>
-	<script src="js/game.js"></script>
+<body background="https://wallpaperaccess.com/full/1235728.jpg">
+	<div align="center"><img src="img/title.png"></div>
+	<div align="center">
+		<div style="overflow: hidden; background-color: orange; width: 1000px;">
+			<p style="width: 100px; float: left;font-size: 20px; font-family: IMPACT; font-style: italic;color: #262626">Health: </p>
+			<p style="width: 10px; float: left;font-size: 20px; font-family: IMPACT;font-style: italic;color: #262626" id="health">5</p>
+			<p style="width: 100px; float: left; font-size: 20px; font-family: IMPACT; font-style: italic;color: #262626">Ammo: </p>
+			<p style="width: 10px; float: left;font-size: 20px; font-family: IMPACT; font-style: italic;color: #262626" id="ammo">5</p>
+			<p style="width: 100px; float: left;font-size: 20px; font-family: IMPACT; font-style: italic;color: #262626">Score: </p>
+			<p style="width: 10px; float: left;font-size: 20px; font-family: IMPACT;font-style: italic;color: #262626" id="score">0</p>
+		</div>
+	</div>
+	<div align="center" id="canvasBase"></div>
+
+	<script  src="js/canvas.js"></script>
+	<script  src="js/input.js"></script>
+	<script  src="js/resources.js"></script>
+	<script  src="js/sprite.js"></script>
+	<script  src="js/main.js"></script>
 </body>
 </html>
