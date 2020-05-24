@@ -14,17 +14,24 @@ var previousTime;
 function main() {
     var now = Date.now();
     var td = (now - previousTime) / 1000.0;
-    //ctx.clearRect(0,0,1000,1000);
-    //ctx.drawImage(resources.get('img/bg.jpg'),0,0,1000,500,0,0,1000,500);
+    ctx.clearRect(0,0,1000,1000);
     bg.renderBg(ctx,td);
     update(td);
+    if (score-lastScore>=1000) {
+    	health+=1;
+    	document.getElementById('health').innerHTML = health;
+    	lastScore = score;
+    }
     if (gameOver) {
     	ctx.drawImage(resources.get('img/gameover.png'),250,50);
+    	document.getElementById("restart").style.color = '#363636';
     }
     previousTime = now;
 };
 
 function init() {
+	//var audio = new Audio('theme.mp3');
+	theme.play();
     char = new Sprite('img/plane.png',[250,100],[115,67],100,[0,0,1,1,1,1,1,1,1,1,2],[114,67]);
     bg = new Sprite('img/bg.jpg',[0,0],[2000,1000],50,[],[2000,1000]);
     previousTime = Date.now();
@@ -161,6 +168,14 @@ function rocketsCollision(){
 						[rockets[i].pos[0]+rockets[i].renderSize[0],rocketMid],
 						[93,93],0,[0,1,2,3,4,5,6,7,8],[100,100]
 						);
+					if (getRandomInt(0,1)) {
+						explosionSound = new Audio("explosion1.mp3");
+					}
+					else {
+						explosionSound = new Audio("explosion2.mp3");
+					}
+					explosionSound.volume = 0.1;
+					explosionSound.play();
 					score+=100;
 					ammo+=2;
 					document.getElementById("score").innerHTML = score;
@@ -190,6 +205,9 @@ function shoot(now,pos){
 		if (now-lastShot>400) {
 			let rocket = new Sprite('img/missile.png',[pos[0],pos[1]],[55,16],500,[0,1,2,3,4,5,4,3,2,1,0],[55,16]);
 			rockets.push(rocket);
+			var missileSound = new Audio('missile.mp3');
+			missileSound.volume = 0.1;
+			missileSound.play();
 			lastShot = now;
 			ammo-=1;
 			document.getElementById("ammo").innerHTML = ammo;
@@ -198,13 +216,38 @@ function shoot(now,pos){
 
 }
 
+function restart(){
+	if (gameOver) {
+		ammo = 5;
+		document.getElementById("ammo").innerHTML = ammo;
+		lastSpawn = 0;
+		health = 5;
+		document.getElementById("health").innerHTML = health;
+		explosions = [];
+		rockets = [];
+		enemies = [];
+		lastShot = 0;
+		lastDirection = 3;
+		score = 0;
+		document.getElementById("score").innerHTML = score;
+		gameOver = false;
+		char.pos[0] = 200;
+		char.pos[1] = 250;
+		document.getElementById("restart").style.color = '#808080';
+	}
+
+}
+
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 var ammo = 5;
+
+var theme = new Audio('theme.mp3');
+theme.volume = 0.8;
 
 var enemies = [];
 var lastSpawn = 0;
@@ -219,5 +262,7 @@ var gameOver = false;
 var explosions = [];
 
 var lastDirection = 3;
+
+var lastScore = 0;
 
 var score = 0;
